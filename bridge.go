@@ -1,15 +1,16 @@
 package bgfx
 
 /*
-#cgo CPPFLAGS: -I include -msse2
+#cgo CPPFLAGS: -I include -I include/bgfx -msse2
 #cgo CXXFLAGS: -fno-rtti -fno-exceptions
 #cgo darwin CPPFLAGS: -I include/compat/osx
 #cgo darwin LDFLAGS: -framework Cocoa -framework OpenGL
 #cgo linux LDFLAGS: -lGL
-#include "bgfx.c99.h"
+#include "c99/bgfx.h"
 #include "bridge.h"
 */
 import "C"
+
 import (
 	"errors"
 	"fmt"
@@ -32,7 +33,7 @@ const (
 )
 
 func Init() {
-	C.bgfx_init(C.BGFX_RENDERER_TYPE_NULL, nil, nil)
+	C.bgfx_init(C.BGFX_RENDERER_TYPE_NOOP, nil, nil)
 }
 
 func Shutdown() {
@@ -530,7 +531,7 @@ type VertexDecl struct {
 }
 
 func (v *VertexDecl) Begin() {
-	C.bgfx_vertex_decl_begin(&v.decl, C.BGFX_RENDERER_TYPE_NULL)
+	C.bgfx_vertex_decl_begin(&v.decl, C.BGFX_RENDERER_TYPE_NOOP)
 }
 
 func (v *VertexDecl) Add(attrib Attrib, num uint8, typ AttribType, normalized bool, asint bool) {
@@ -848,9 +849,11 @@ func SetTransform(mtx [16]float32) {
 	C.bgfx_set_transform(unsafe.Pointer(&mtx[0]), 1)
 }
 
+/* obsolete bgfx call
 func SetProgram(prog Program) {
 	C.bgfx_set_program(prog.h)
 }
+*/
 
 func SetVertexBuffer(vb VertexBuffer) {
 	C.bgfx_set_vertex_buffer(vb.h, 0, 0xffffffff)
@@ -881,9 +884,11 @@ func SetTexture(stage uint8, u Uniform, t Texture) {
 	C.bgfx_set_texture(C.uint8_t(stage), u.h, t.h, C.UINT32_MAX)
 }
 
+/* obsolete call
 func SetTextureFromFrameBuffer(stage uint8, u Uniform, fb FrameBuffer) {
 	C.bgfx_set_texture_from_frame_buffer(C.uint8_t(stage), u.h, fb.h, 0, C.UINT32_MAX)
 }
+*/
 
 func SetState(state State) {
 	C.bgfx_set_state(C.uint64_t(state), 0)

@@ -33,6 +33,9 @@ namespace tinystl {
 
 	template<typename Key, typename Value>
 	struct pair {
+		typedef Key first_type;
+		typedef Value second_type;
+
 		pair();
 		pair(const Key& key, const Value& value);
 
@@ -65,6 +68,9 @@ namespace tinystl {
 		Value second;
 		unordered_hash_node* next;
 		unordered_hash_node* prev;
+
+	private:
+		unordered_hash_node& operator=(const unordered_hash_node&);
 	};
 
 	template<typename Key, typename Value>
@@ -81,6 +87,9 @@ namespace tinystl {
 		const Key first;
 		unordered_hash_node* next;
 		unordered_hash_node* prev;
+
+	private:
+		unordered_hash_node& operator=(const unordered_hash_node&);
 	};
 
 	template<typename Key>
